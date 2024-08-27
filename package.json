@@ -1,0 +1,19 @@
+{
+  "name": "rubberduck",
+  "version": "1.0.0",
+  "description": "A helpful flashcard study tool that tests you on your flashcards, guiding you towards correcting your answers instead of giving them away, and helping you build a more long-term understanding of the material",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tisya-V/RubberDuck.git"
+  },
+  "author": "Tisya V",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tisya-V/RubberDuck/issues"
+  },
+  "homepage": "https://github.com/Tisya-V/RubberDuck#readme"
+}
