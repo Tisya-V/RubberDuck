@@ -1,0 +1,58 @@
+What is a CPU? What is the role of the CPU?
+ >> Central Processing Unit
+Used for processing data and instructions within a computer.
+
+What is a CU? What is the role of the CU?
+ >> Control Unit
+Controls the flow of data within the CPU by decoding instructions and sending control signals to other components.
+
+What is the PC? What is the role of the PC?
+ >> Program Counter
+Holds the address of the next instruction to be processed.
+
+What is the ALU? What is the role of the ALU?
+ >> Arithmetic Logic Unit
+Performs arithmetic and logical operations such as additions and bit shifts
+
+What is the MAR? What is the role of the MAR?
+ >> Memory Address Register
+Holds address in memory waiting to be accessed by the CPU
+
+What is the MDR? What is the role of the MDR?
+ >> Memory Data Register
+Holds data waiting to be written to memory, or just fetched from memory.
+
+What is the role of the accumulator?
+ >> Holds the immediate result of calculations performed by the ALU.
+
+How many types of cache are there? What is the distinction between the different types?
+ >> 3 types - L1, L2, L3
+L1 is the fastest but has least capacity
+L3 is the slowest with largest capacity
+
+Explain in full detail what happens during the FDE cycle
+ >> During the Fetch stage, the address in the PC is copied to the MAR, then the PC is incremented (to point to the next instruction). From here, this address is sent to the main memory, which then returns the data in that address. This data is placed in the MDR.
+
+Then in the Decode stage, the control unit decodes the instruction into opcode and operand, and sends the appropriate control signals to the other components of the CPU.
+
+Then during the Execute stage, the instruction is carried out. This may involve an operation in the accumulator, or loading/storing from the main memory.
+
+What 3 factors affect CPU performance?
+ >> Clock Speed
+Cache Size
+Number of Cores
+
+How does clock speed affect CPU performance?
+ >> The higher the clock speed, the more FDE cycles are performed per second, so the more instructions are carried out per second.
+
+What is clock speed?
+ >> Essentially, the clock sends out pulses which cause each component to do their job, and the clock speed is the number of pulses sent out per second. So clock speed dictates number of instructions performed per second. The unit of measurement is Hz.
+
+How does number of cores affect CPU performance?
+ >> Each core of the CPU is basically its own set of CU, ALU, registers etc, to process data independently of other cores. So the more cores you have, the more instructions you can execute simultaneously, making the program run faster.
+
+What is cache?
+ >> Small and fast memory used to hold data that needs to be frequently accessed by CPU, or instructions recently processed. The CPU checks here first before checking in the RAM (main memory), since it is faster to read from and write to.
+
+How does cache size affect CPU performance?
+ >> Cache is faster to access than RAM, so the larger cache is, the more items it can hold and fetch from. This means the slower RAM need only be accessed less frequently, speeding performance.
