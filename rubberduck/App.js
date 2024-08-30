@@ -26,7 +26,7 @@ export default function App() {
             <Image source={require('./assets/icon.png')} 
                    style={{ width: 70, height:70 }} 
             />
-            <Appbar.Content title="Rubber Duck" />
+            <Appbar.Content title="rubberduck" />
 
             <Button 
               style={styles.button}

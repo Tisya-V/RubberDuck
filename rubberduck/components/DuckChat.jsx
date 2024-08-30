@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Dimensions, ScrollView , Image} from "react-native";
 import theme from "../theme";
 
 
@@ -13,16 +13,26 @@ export default function DuckChat({chat}) {
     const content = chat.length === 0 ?
     <Text>🐤🐤🐤</Text> :
     chat.map((message, index) => (
-        <Text style={[styles.message, message.role === 'user' ? styles.yourMessage : styles.assistantMessage]} key={index}>
-            {message.content}
-        </Text>
+        message.role === 'user' ?
+        <View style={[styles.message, styles.yourMessage]} key={index}>
+            <Text style={{fontSize:16}}>
+                {message.content}
+            </Text>
+        </View> :
+
+        <View style={[styles.message, styles.assistantMessage]} key={index}>
+            <Image style = {styles.duck} source={require('../assets/icon-right-facing.png')}/>
+            <Text style={{fontSize:16}}>
+                {message.content}
+            </Text>
+        </View>
     ))
     return (
-        <ScrollView>
-            <View style={styles.container}>
-            {content}
-            </View>
-        </ScrollView>
+        <View style={styles.container}>
+            <ScrollView>
+                {content}
+            </ScrollView>
+        </View>
     );
 }
 
@@ -34,14 +44,17 @@ const styles = StyleSheet.create({
         height: screenHeight * 0.5,
         width: screenWidth * 0.45,
     },
+    duck : {
+        width: 40,
+        height: 40,
+    },
     message : {
         color: 'black',
-        textAlign: 'center',
-        fontSize: 20,
         padding: 10,
         borderRadius: 10,
         maxWidth: screenWidth * 0.3,
         marginVertical: 5,
+        flexDirection: 'row',
     },
     yourMessage : {
         backgroundColor: theme.colors.rdlightblue,
