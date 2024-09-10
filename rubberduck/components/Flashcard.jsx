@@ -2,11 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import theme from "../theme";
 import ReactCardFlip from 'react-card-flip';
-
-
-const screenHeight = Dimensions.get('window').height;
-const screenWidth = Dimensions.get('window').width;
-
+import { screenHeight, screenWidth } from './constants';
 
 export default function Flashcard({flashcard, side}) {
     const question = side === 'question';

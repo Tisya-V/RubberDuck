@@ -1,10 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Dimensions, ScrollView , Image} from "react-native";
 import theme from "../theme";
-
-
-const screenHeight = Dimensions.get('window').height;
-const screenWidth = Dimensions.get('window').width;
+import { screenHeight, screenWidth } from './constants';
 
 
 export default function DuckChat({chat}) {
