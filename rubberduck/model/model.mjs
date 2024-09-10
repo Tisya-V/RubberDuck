@@ -141,20 +141,10 @@ const messageHistory = [
     content: `
       No Hint: You got it! Your answer is good enough. Well done!
     `
-  },
-  // {
-  //   role: "user",
-  //   content: `
-  //   {
-  //           Question: What is a CPU? What is the purpose of a CPU?,
-  //           Model Answer: The CPU is the central processing unit of a computer, and its purpose is to execute instructions and process data.,
-  //           My Answer: processing instruction
-  //   }`
-  // },
+  }
 ];
 
 const hf = new HfInference(process.env.EXPO_PUBLIC_HF_API_KEY);
-// const hf = new HfInference("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");
 
 const sendChatCompletionRequest = async (messageHistory) => {
   try {
