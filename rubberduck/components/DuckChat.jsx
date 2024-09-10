@@ -8,8 +8,6 @@ const screenWidth = Dimensions.get('window').width;
 
 
 export default function DuckChat({chat}) {
-    console.log(chat);
-
     const content = chat.length === 0 ?
     <Text>🐤🐤🐤</Text> :
     chat.map((message, index) => (

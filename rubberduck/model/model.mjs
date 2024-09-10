@@ -8,7 +8,9 @@ const repeatedInstr = `
     Only if it is missing keywords and information then,
     What is a good, concise hint, worded in simple terms, that will guide my answer toward a the model answer WITHOUT giving the model answer away?
     Your hint should not give away the key terms and information, just guide me towards them.
+    The 'Model Answer' is to be taken as the correct answer (even if you think it is wrong or missing info).
     Be concise.
+    Preface the answer with "Hint: " so I know it is a hint, or "No Hint: " if you think my answer is good enough.
 `
 
 const messageHistory = [
@@ -46,36 +48,11 @@ const messageHistory = [
       And I have now gotten the full answer and you could just say "Well done you got it!"
       Keep things consise.
     `
-
-
-    
-    
   },
   {
     role : "assistant",
     content : "Understood! Let's get started!"
-  }
-];
-
-const hf = new HfInference('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')
-
-const sendChatCompletionRequest = async (messageHistory) => {
-  try {
-    const response = await hf.chatCompletion({
-      model: "mistralai/Mistral-7B-Instruct-v0.2",
-      messages: messageHistory,
-      max_tokens: 500,
-      temperature: 0.1,
-      seed: 0,
-    });
-    return response;
-  } catch (error) {
-    console.error("Error sending chat completion request:", error);
-    throw error;
-  }
-};
-
-messageHistory.push(
+  },
   {
     role: "user", 
     content: `
@@ -159,13 +136,55 @@ messageHistory.push(
           ${repeatedInstr}
     `
   },
-  
-)
+  {
+    role: "assistant",
+    content: `
+      No Hint: You got it! Your answer is good enough. Well done!
+    `
+  },
+  // {
+  //   role: "user",
+  //   content: `
+  //   {
+  //           Question: What is a CPU? What is the purpose of a CPU?,
+  //           Model Answer: The CPU is the central processing unit of a computer, and its purpose is to execute instructions and process data.,
+  //           My Answer: processing instruction
+  //   }`
+  // },
+];
 
-sendChatCompletionRequest(messageHistory)
-  .then(response => console.log(response.choices[0].message.content))
-  .catch(error => console.error(error));
+const hf = new HfInference(process.env.EXPO_PUBLIC_HF_API_KEY);
+// const hf = new HfInference("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");
 
-// console.log(out)
-// messageHistory.add({role: "user", content: "Central Processing Unit"})
-// console.log(out(messageHistory).choices[0].message.content)
+const sendChatCompletionRequest = async (messageHistory) => {
+  try {
+    const response = await hf.chatCompletion({
+      model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
+      messages: messageHistory,
+      max_tokens: 500,
+      temperature: 0.1,
+      seed: 0,
+    });
+    return response;
+  } catch (error) {
+    console.error("Error sending chat completion request:", error);
+    throw error;
+  }
+};
+
+const sendMessage = async (messages) => {
+  try {
+    response = await sendChatCompletionRequest(messages);
+    console.log("Response from model", response.choices[0].message.content); 
+    return response.choices[0].message.content;
+  } catch (error) {
+    console.error("Error sending message:", error);
+    throw error;
+  }
+}
+
+// sendChatCompletionRequest(messageHistory)
+//   .then(response => console.log(response.choices[0].message.content))
+//   .catch(error => console.error(error));
+
+export {sendMessage, repeatedInstr}; 

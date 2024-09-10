@@ -1,23 +1,30 @@
 import React from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import theme from "../theme";
+import ReactCardFlip from 'react-card-flip';
 
 
 const screenHeight = Dimensions.get('window').height;
 const screenWidth = Dimensions.get('window').width;
 
 
-export default function Flashcard({content, side}) {
+export default function Flashcard({flashcard, side}) {
     const question = side === 'question';
     return (
-        <View style={styles.flashcard}>
-            <Text style={question ? styles.qlabel : styles.alabel}>
-                {question ? "QUESTION" : "ANSWER"}
-            </Text>
-            <View>  
-                <Text style={styles.content}>{content}</Text>
+        <ReactCardFlip isFlipped={!question} style={styles.flashcard} flipDirection="vertical">
+            <View style={styles.flashcard}>
+                <Text style={styles.qlabel}>QUESTION</Text>
+                <View>  
+                    <Text style={styles.content}>{flashcard.question}</Text>
+                </View>
             </View>
-        </View>
+            <View style={styles.flashcard}>
+                <Text style={styles.alabel}>ANSWER</Text>
+                <View>  
+                    <Text style={styles.content}>{flashcard.answer}</Text>
+                </View>
+            </View>
+        </ReactCardFlip>
     );
 }
 
