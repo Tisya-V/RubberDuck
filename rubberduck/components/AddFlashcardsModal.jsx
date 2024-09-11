@@ -1,5 +1,5 @@
 import React, {useState, useImperativeHandle, forwardRef} from 'react';
-import { Text, Modal, TextInput, Divider } from 'react-native-paper';
+import { Appbar, Button, Text, Modal, TextInput, Divider, Icon, IconButton } from 'react-native-paper';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { screenHeight, screenWidth } from './constants';
 import theme from '../theme';
@@ -9,11 +9,9 @@ import theme from '../theme';
 const AddFlashcardsModal = forwardRef((props, ref) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [flashcards, setFlashcards] = useState([
-        {front: 'f1', back: 'b1'}, 
-        {front: 'f2', back: 'b2'}, 
-        {front: 'f2', back: 'b2'}, 
-        {front: 'f2', back: 'b2'}, 
-        {front: '', back: ''}
+        {front: '', back: ''}, 
+        {front: '', back: ''}, 
+        {front: '', back: ''}, 
     ]);
   
     const showModal = () => setModalVisible(true);
@@ -24,51 +22,90 @@ const AddFlashcardsModal = forwardRef((props, ref) => {
       hideModal,
     }));
 
-    const EditFlashcard = ({index, frontContent, backContent}) => {
-        return (
-            <View style={styles.flashcardWrapper}>
-                <TextInput
-                    mode='outlined'
-                    label='Front'
-                    multiline={true}
-                    style={styles.flashcard}
-                    outlineColor={theme.colors.rddarkblue}
-                    outlineStyle={styles.flashcardOutline}
-                    value={frontContent}
-                    onChangeText={(text) => {setFlashcards(flashcards.map((flashcard, index) => {
-                        if (index === index) {
-                            return {front: text, back: flashcard.back};
-                        } else {
-                            return flashcard;
-                        }
-                    }
-                    ))}}
-                    ></TextInput>
-                <TextInput
-                    mode='outlined'
-                    label='Back'
-                    multiline={true}
-                    style={styles.flashcard}
-                    outlineColor={theme.colors.rddarkblue}
-                    outlineStyle={styles.flashcardOutline}
-                    value={backContent}
-                ></TextInput>
-            </View>
-        );
-    }
-
     const renderFlashcards = () => {
-        return flashcards.map((flashcard, index) => {
-            console.log(flashcard.front);
-            return <EditFlashcard key={index} index={index} frontContent={flashcard.front} backContent={flashcard.back}></EditFlashcard>
-        });
+        return flashcards.map((flashcard, cardNo) => {
+            return (
+              <>
+              <View key={cardNo} style={styles.flashcardWrapper}>
+                  <TextInput
+                      mode='outlined'
+                      label='Front'
+                      dense={true}
+                      multiline={true}
+                      style={styles.flashcard}
+                      outlineColor={theme.colors.rddarkblue}
+                      outlineStyle={styles.flashcardOutline}
+                      value={flashcard.front}
+                      onChangeText={(text) => {
+                          setFlashcards((prevFlashcards) =>
+                            prevFlashcards.map((flashcard, index) => {
+                              if (index === cardNo) {
+                                return { front: text, back: flashcard.back };
+                              } else {
+                                return flashcard;
+                              }
+                            })
+                          );
+                      }}
+                      ></TextInput>
+                  <TextInput
+                      mode='outlined'
+                      label='Back'
+                      multiline={true}
+                      style={styles.flashcard}
+                      outlineColor={theme.colors.rddarkblue}
+                      outlineStyle={styles.flashcardOutline}
+                      value={flashcard.back}
+                      onChangeText={(text) => {
+                          setFlashcards((prevFlashcards) =>
+                            prevFlashcards.map((flashcard, index) => {
+                              if (index === cardNo) {
+                                return { front: flashcard.front, back: text };
+                              } else {
+                                return flashcard;
+                              }
+                            })
+                          );
+                        }}
+                  ></TextInput>
+              </View> 
+                  <Divider style={{width: screenWidth * 0.6, margin:5 }}></Divider>
+              </>
+              );
+              
+    });
     }
   
     return (
       <Modal visible={modalVisible} onDismiss={hideModal} contentContainerStyle={styles.modal}>
+            <Appbar.Header style={styles.appbar}>
+            <Appbar.Content title="Create new deck" />
+
+            <Button 
+              style={[styles.button, {backgroundColor: theme.colors.rddarkblue, marginRight:10}] }
+              textColor='white'
+              icon="file-download-outline" 
+              onPress={() => modalRef.current.showModal()}
+            >Import from file</Button>
+
+            <Button 
+              style={[styles.button, {backgroundColor: theme.colors.rddarkyellow}] }
+              textColor='white'
+              icon="content-save" 
+              onPress={() => modalRef.current.showModal()}
+            >Save Deck</Button>
+            
+          </Appbar.Header>
             <View style={styles.flashcardContainer}>
-                <ScrollView contentContainerStyle={styles.scrollView}>
+                <ScrollView contentContainerStyle={styles.scrollView} showsVerticalScrollIndicator={false}>
                 {renderFlashcards()}
+
+                <IconButton 
+                  icon='plus'
+                  iconColor={theme.colors.rddarkblue}
+                  containerColor={theme.colors.rdlightblue} 
+                  onPress={() => setFlashcards((prevFlashcards) => [...prevFlashcards, {front: '', back: ''}])}  
+                  ></IconButton>
                 </ScrollView>
             </View>
       </Modal>
@@ -81,10 +118,16 @@ const AddFlashcardsModal = forwardRef((props, ref) => {
           height: screenHeight * 0.8,
           width: screenWidth * 0.8,
           borderRadius: 20,
-          padding: 20,
+          // padding: 20,
           margin: 20,
           alignSelf: 'center',
           flex: 1,
+      },
+      appbar: {
+        marginHorizontal: screenWidth * 0.05,
+        height: screenHeight * 0.2, 
+        backgroundColor: theme.colors.rdlightblue,
+        borderRadius: 20,
       },
       scrollView: {
           alignItems: 'center',
@@ -112,6 +155,11 @@ const AddFlashcardsModal = forwardRef((props, ref) => {
         marginVertical: screenHeight * 0.02,
         justifyContent: 'center',
         padding: 10,
+    },
+    button : {
+      borderRadius: 10,
+      width: screenWidth * 0.15,
+      justifyContent: 'center',
     },
     });
 export default AddFlashcardsModal;

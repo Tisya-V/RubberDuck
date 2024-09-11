@@ -160,13 +160,4 @@ const styles = StyleSheet.create({
     width: screenWidth * 0.15,
     justifyContent: 'center',
   },
-  modal: {
-    backgroundColor: 'white',
-    height: screenHeight * 0.8,
-    width: screenWidth * 0.8,
-    borderRadius: 20,
-    padding: 20,
-    margin: 20,
-    alignSelf: 'center',
-  }
 });

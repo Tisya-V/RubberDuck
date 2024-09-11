@@ -11,6 +11,7 @@ const theme = {
     rdmidblue : '#71A3B9',
     rddarkblue : '#38667A',
     rdlightyellow : '#F4E496',
+    rddarkyellow : '#DCB209',
     rdgrey : '#D9D9D9'
   }
 };
