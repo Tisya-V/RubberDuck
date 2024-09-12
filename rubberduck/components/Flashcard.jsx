@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
         left: 20,
         fontSize: 20,
         color: 'white',
+        paddingBottom: 30,
     },
     alabel: {
         position: 'absolute',
@@ -52,6 +53,8 @@ const styles = StyleSheet.create({
         right: 20,
         fontSize: 20,
         color: 'white',
+        paddingBottom: 30,
+
     },
     content : {
         color: 'white',
