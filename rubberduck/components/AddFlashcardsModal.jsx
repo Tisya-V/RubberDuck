@@ -3,15 +3,16 @@ import { Appbar, Button, Text, Modal, TextInput, Divider, Icon, IconButton } fro
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { screenHeight, screenWidth } from './constants';
 import theme from '../theme';
+import { parseFlashcards } from '../model/fc-txt-parser';
+import { setNewDeck } from '../model/currentDeck';
 
 
-
-const AddFlashcardsModal = forwardRef((props, ref) => {
+const AddFlashcardsModal = forwardRef(({onDeckChange}, ref) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [flashcards, setFlashcards] = useState([
-        {front: '', back: ''}, 
-        {front: '', back: ''}, 
-        {front: '', back: ''}, 
+        {question: '', answer: ''}, 
+        {question: '', answer: ''}, 
+        {question: '', answer: ''}, 
     ]);
   
     const showModal = () => setModalVisible(true);
@@ -35,12 +36,12 @@ const AddFlashcardsModal = forwardRef((props, ref) => {
                       style={styles.flashcard}
                       outlineColor={theme.colors.rddarkblue}
                       outlineStyle={styles.flashcardOutline}
-                      value={flashcard.front}
+                      value={flashcard.question}
                       onChangeText={(text) => {
                           setFlashcards((prevFlashcards) =>
                             prevFlashcards.map((flashcard, index) => {
                               if (index === cardNo) {
-                                return { front: text, back: flashcard.back };
+                                return { question: text, answer: flashcard.answer };
                               } else {
                                 return flashcard;
                               }
@@ -55,12 +56,12 @@ const AddFlashcardsModal = forwardRef((props, ref) => {
                       style={styles.flashcard}
                       outlineColor={theme.colors.rddarkblue}
                       outlineStyle={styles.flashcardOutline}
-                      value={flashcard.back}
+                      value={flashcard.answer}
                       onChangeText={(text) => {
                           setFlashcards((prevFlashcards) =>
                             prevFlashcards.map((flashcard, index) => {
                               if (index === cardNo) {
-                                return { front: flashcard.front, back: text };
+                                return { question: flashcard.question, answer: text };
                               } else {
                                 return flashcard;
                               }
@@ -85,14 +86,45 @@ const AddFlashcardsModal = forwardRef((props, ref) => {
               style={[styles.button, {backgroundColor: theme.colors.rddarkblue, marginRight:10}] }
               textColor='white'
               icon="file-download-outline" 
-              onPress={() => modalRef.current.showModal()}
+              onPress={async () =>
+                {
+
+                  const pickerOpts = {
+                    types: [
+                        {
+                        description: "Text",
+                        accept: {
+                            "text/*": [".txt"],
+                        },
+                        },
+                    ],
+                    excludeAcceptAllOption: true,
+                    multiple: false,
+                  };
+
+                  // Open file picker and destructure the result the first handle
+                  const [fileHandle] = await window.showOpenFilePicker(pickerOpts);
+                
+                  // get file contents
+                  const fileData = await fileHandle.getFile();
+                  const newFlashcards = await parseFlashcards(fileData);
+                  console.log(newFlashcards);
+                  setFlashcards((old) => newFlashcards);
+                }
+              }
             >Import from file</Button>
 
             <Button 
               style={[styles.button, {backgroundColor: theme.colors.rddarkyellow}] }
               textColor='white'
               icon="content-save" 
-              onPress={() => modalRef.current.showModal()}
+              onPress={() => 
+                {
+                setNewDeck(flashcards)
+                onDeckChange();
+                hideModal()
+                }
+              }
             >Save Deck</Button>
             
           </Appbar.Header>
@@ -104,7 +136,7 @@ const AddFlashcardsModal = forwardRef((props, ref) => {
                   icon='plus'
                   iconColor={theme.colors.rddarkblue}
                   containerColor={theme.colors.rdlightblue} 
-                  onPress={() => setFlashcards((prevFlashcards) => [...prevFlashcards, {front: '', back: ''}])}  
+                  onPress={() => setFlashcards((prevFlashcards) => [...prevFlashcards, {question: '', answer: ''}])}  
                   ></IconButton>
                 </ScrollView>
             </View>
@@ -154,6 +186,7 @@ const AddFlashcardsModal = forwardRef((props, ref) => {
         marginHorizontal: screenWidth * 0.05,
         marginVertical: screenHeight * 0.02,
         justifyContent: 'center',
+        alignContent: 'center',
         padding: 10,
     },
     button : {

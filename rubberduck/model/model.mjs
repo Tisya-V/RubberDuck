@@ -10,7 +10,7 @@ const repeatedInstr = `
     Your hint should not give away the key terms and information, just guide me towards them.
     The 'Model Answer' is to be taken as the correct answer (even if you think it is wrong or missing info).
     Be concise.
-    Preface the answer with "Hint: " so I know it is a hint, or "No Hint: " if you think my answer is good enough.
+    Preface the answer with "Hint: " so I know it is a hint, or "Success: " if you think my answer is good enough.
 `
 
 const messageHistory = [
@@ -147,6 +147,7 @@ const messageHistory = [
 const hf = new HfInference(process.env.EXPO_PUBLIC_HF_API_KEY);
 
 const sendChatCompletionRequest = async (messageHistory) => {
+  console.log(messageHistory);
   try {
     const response = await hf.chatCompletion({
       model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
@@ -164,7 +165,7 @@ const sendChatCompletionRequest = async (messageHistory) => {
 
 const sendMessage = async (messages) => {
   try {
-    response = await sendChatCompletionRequest(messages);
+    response = await sendChatCompletionRequest( messageHistory.concat(messages));
     console.log("Response from model", response.choices[0].message.content); 
     return response.choices[0].message.content;
   } catch (error) {

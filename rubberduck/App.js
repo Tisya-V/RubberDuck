@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';
 import { Appbar, Button, Icon, PaperProvider, TextInput, Tooltip, Portal, Modal } from 'react-native-paper';
@@ -9,15 +9,25 @@ import DuckChat from './components/DuckChat';
 import AddFlashcardsModal from './components/AddFlashcardsModal';
 import { sendAnswer } from './controller/controller.mjs';
 import { screenHeight, screenWidth } from './components/constants';
+import { getDeck, getNextCard } from './model/currentDeck';
 
 export default function App() {
   const [input, setInput] = useState('');
   const [chat, setChat] = useState([]);
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [tooltipVisible, setTooltipVisible] = useState(false);
-  const [flashcard, setFlashcard] = useState({question:'What is a CPU? What is the purpose of a CPU?', answer:'The CPU is the central processing unit of a computer, and its purpose is to execute instructions and process data.'});
+  const [flashcard, setFlashcard] = useState({question: '', answer: ''});
   const [flashcardSide, setFlashcardSide] = useState('question');
   const modalRef = useRef();
+
+  useEffect(() => {
+    // Initialize with the first card from the deck
+    setFlashcard(getNextCard());
+  }, []);
+
+  const handleNewDeck = () => {
+    setFlashcard(getNextCard());
+  };
 
   const userAnswer = (flashcard, answer) => {
     setInput('');
@@ -31,6 +41,7 @@ export default function App() {
         } else {
           // TODO - flip card
           flipFlashcard();
+          setButtonDisabled(false);
           setChat([...newChat, { role: 'assistant', content: response.response }]);
         }
       })
@@ -40,7 +51,6 @@ export default function App() {
   const flipFlashcard = () => {
     if (flashcardSide === 'question') {
       setFlashcardSide('answer');
-      setButtonDisabled(false);
     } else {
       setFlashcardSide('question');
     }
@@ -50,7 +60,7 @@ export default function App() {
     <PaperProvider theme={theme}>
       <SafeAreaProvider>
         <Portal>
-          <AddFlashcardsModal ref={modalRef}></AddFlashcardsModal>
+          <AddFlashcardsModal ref={modalRef} onDeckChange={handleNewDeck}></AddFlashcardsModal>
         </Portal>
 
         <View style={styles.container}>
@@ -94,7 +104,7 @@ export default function App() {
                 title="Give the question a try first! Your rubber duck will give you a helpful hint if you get stuck."
               >
               <Button 
-                style={styles.button}
+                style={[styles.button, {height: screenHeight * 0.1}]}
                 mode="contained" 
                 onMouseEnter={
                   () => {
@@ -111,8 +121,16 @@ export default function App() {
                   }
                 }
                 onPress={() => {
+
+                  if (flashcardSide === 'question') {
+                    setFlashcardSide('answer');
+                  } else {
+                    setFlashcardSide('question');
+                  }
+                
                   setButtonDisabled(true);
-                  // TODO - next card
+                  setChat([]);
+                  setFlashcard(getNextCard());
                 }}
                 disabled={buttonDisabled}
                 buttonColor={buttonDisabled ? theme.colors.rdgrey : theme.colors.rddarkblue}
@@ -154,6 +172,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: screenWidth * 0.7,
     backgroundColor: theme.colors.rdgrey,
+    height: screenHeight * 0.1,
   },
   button : {
     borderRadius: 10,

@@ -1,58 +1,89 @@
 What is a CPU? What is the role of the CPU?
- >> Central Processing Unit
+Answer:
+Central Processing Unit
 Used for processing data and instructions within a computer.
 
+Question:
 What is a CU? What is the role of the CU?
- >> Control Unit
+Answer:
+Control Unit
 Controls the flow of data within the CPU by decoding instructions and sending control signals to other components.
 
+Question:
 What is the PC? What is the role of the PC?
- >> Program Counter
+Answer:
+Program Counter
 Holds the address of the next instruction to be processed.
 
+Question:
 What is the ALU? What is the role of the ALU?
- >> Arithmetic Logic Unit
+Answer:
+Arithmetic Logic Unit
 Performs arithmetic and logical operations such as additions and bit shifts
 
+Question:
 What is the MAR? What is the role of the MAR?
- >> Memory Address Register
+Answer:
+Memory Address Register
 Holds address in memory waiting to be accessed by the CPU
 
+Question:
 What is the MDR? What is the role of the MDR?
- >> Memory Data Register
+Answer:
+Memory Data Register
 Holds data waiting to be written to memory, or just fetched from memory.
 
+Question:
 What is the role of the accumulator?
- >> Holds the immediate result of calculations performed by the ALU.
+Answer:
+Holds the immediate result of calculations performed by the ALU.
 
+Question:
 How many types of cache are there? What is the distinction between the different types?
- >> 3 types - L1, L2, L3
+Answer:
+3 types - L1, L2, L3
 L1 is the fastest but has least capacity
 L3 is the slowest with largest capacity
 
+Question:
 Explain in full detail what happens during the FDE cycle
- >> During the Fetch stage, the address in the PC is copied to the MAR, then the PC is incremented (to point to the next instruction). From here, this address is sent to the main memory, which then returns the data in that address. This data is placed in the MDR.
+Answer:
+During the Fetch stage, the address in the PC is copied to the MAR, then the PC is incremented (to point to the next instruction). From here, this address is sent to the main memory, which then returns the data in that address. This data is placed in the MDR.
 
 Then in the Decode stage, the control unit decodes the instruction into opcode and operand, and sends the appropriate control signals to the other components of the CPU.
 
 Then during the Execute stage, the instruction is carried out. This may involve an operation in the accumulator, or loading/storing from the main memory.
 
+Question:
 What 3 factors affect CPU performance?
- >> Clock Speed
+Answer:
+Clock Speed
 Cache Size
 Number of Cores
 
+Question:
 How does clock speed affect CPU performance?
- >> The higher the clock speed, the more FDE cycles are performed per second, so the more instructions are carried out per second.
+Answer:
+The higher the clock speed, the more FDE cycles are performed per second, so the more instructions are carried out per second.
 
+Question:
 What is clock speed?
- >> Essentially, the clock sends out pulses which cause each component to do their job, and the clock speed is the number of pulses sent out per second. So clock speed dictates number of instructions performed per second. The unit of measurement is Hz.
+Answer:
+Essentially, the clock sends out pulses which cause each component to do their job, and the clock speed is the number of pulses sent out per second. So clock speed dictates number of instructions performed per second. The unit of measurement is Hz.
 
+Question:
 How does number of cores affect CPU performance?
- >> Each core of the CPU is basically its own set of CU, ALU, registers etc, to process data independently of other cores. So the more cores you have, the more instructions you can execute simultaneously, making the program run faster.
+Answer:
+Each core of the CPU is basically its own set of CU, ALU, registers etc, to process data independently of other cores. So the more cores you have, the more instructions you can execute simultaneously, making the program run faster.
 
+Question:
 What is cache?
- >> Small and fast memory used to hold data that needs to be frequently accessed by CPU, or instructions recently processed. The CPU checks here first before checking in the RAM (main memory), since it is faster to read from and write to.
+Answer:
+Small and fast memory used to hold data that needs to be frequently accessed by CPU, or instructions recently processed. The CPU checks here first before checking in the RAM (main memory), since it is faster to read from and write to.
 
+Question:
 How does cache size affect CPU performance?
- >> Cache is faster to access than RAM, so the larger cache is, the more items it can hold and fetch from. This means the slower RAM need only be accessed less frequently, speeding performance.
+Answer:
+Cache is faster to access than RAM, so the larger cache is, the more items it can hold and fetch from. This means the slower RAM need only be accessed less frequently, speeding performance.
+
+Question:

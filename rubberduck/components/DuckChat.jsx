@@ -5,8 +5,7 @@ import { screenHeight, screenWidth } from './constants';
 
 
 export default function DuckChat({chat}) {
-    const content = chat.length === 0 ?
-    <Text>🐤🐤🐤</Text> :
+    const content =
     chat.map((message, index) => (
         message.role === 'user' ?
         <View style={[styles.message, styles.yourMessage]} key={index}>
@@ -38,7 +37,9 @@ const styles = StyleSheet.create({
         padding: 10,
         height: screenHeight * 0.5,
         width: screenWidth * 0.45,
-    },
+        alignItems: 'center',
+        justifyContent: 'center',
+    },  
     duck : {
         width: 40,
         height: 40,

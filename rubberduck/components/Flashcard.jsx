@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
 import theme from "../theme";
 import ReactCardFlip from 'react-card-flip';
 import { screenHeight, screenWidth } from './constants';
@@ -10,15 +10,19 @@ export default function Flashcard({flashcard, side}) {
         <ReactCardFlip isFlipped={!question} style={styles.flashcard} flipDirection="vertical">
             <View style={styles.flashcard}>
                 <Text style={styles.qlabel}>QUESTION</Text>
-                <View>  
-                    <Text style={styles.content}>{flashcard.question}</Text>
-                </View>
+                <ScrollView>
+                    <View>  
+                        <Text style={styles.content}>{flashcard.question}</Text>
+                    </View>
+                </ScrollView>
             </View>
             <View style={styles.flashcard}>
                 <Text style={styles.alabel}>ANSWER</Text>
-                <View>  
-                    <Text style={styles.content}>{flashcard.answer}</Text>
-                </View>
+                <ScrollView>
+                    <View>  
+                        <Text style={styles.content}>{flashcard.answer}</Text>
+                    </View>
+                </ScrollView>
             </View>
         </ReactCardFlip>
     );
@@ -52,6 +56,7 @@ const styles = StyleSheet.create({
     content : {
         color: 'white',
         textAlign: 'center',
+        paddingVertical:screenHeight * 0.15,
         fontSize: 40,
     }
 });
