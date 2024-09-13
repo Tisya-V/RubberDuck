@@ -1,5 +1,5 @@
 import React, {useState, useImperativeHandle, forwardRef} from 'react';
-import { Appbar, Button, Text, Modal, TextInput, Divider, Icon, IconButton } from 'react-native-paper';
+import { Appbar, Button, Modal, TextInput, Divider, IconButton } from 'react-native-paper';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { screenHeight, screenWidth } from './constants';
 import theme from '../theme';

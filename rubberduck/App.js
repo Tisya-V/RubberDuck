@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';
-import { Appbar, Button, Icon, PaperProvider, TextInput, Tooltip, Portal, Modal } from 'react-native-paper';
+import { Appbar, Button, Icon, PaperProvider, TextInput, Tooltip, Portal } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import theme from './theme';
 import Flashcard from './components/Flashcard';
@@ -9,7 +9,7 @@ import DuckChat from './components/DuckChat';
 import AddFlashcardsModal from './components/AddFlashcardsModal';
 import { sendAnswer } from './controller/controller.mjs';
 import { screenHeight, screenWidth } from './components/constants';
-import { getDeck, getNextCard } from './model/currentDeck';
+import { getNextCard } from './model/currentDeck';
 
 export default function App() {
   const [input, setInput] = useState('');

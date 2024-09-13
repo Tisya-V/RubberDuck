@@ -12,16 +12,15 @@ function setNewDeck(newDeck) {
 }
 
 function getNextCard() {
-    if (deck.length === 0) {
-        return null
-    }
-    card = deck.pop()
-    console.log(card)
+    card = deck.shift()
+    deck.push(card)
     return card
 }
 
 function resetDeck() {
+  temp = [...deckCopy]
   deck = deckCopy
+  deckCopy = [...temp]
 }
 
 // function shuffleDeck() {

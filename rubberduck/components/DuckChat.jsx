@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions, ScrollView , Image} from "react-native";
+import { View, Text, StyleSheet, ScrollView , Image} from "react-native";
 import theme from "../theme";
 import { screenHeight, screenWidth } from './constants';
 
