@@ -39,7 +39,7 @@ And then use the Copy text button to copy the data. Paste it into a text file, a
 - Convert to desktop app
 - Add ability to save flashcard decks to a specific folder, and reopen previous decks easily
   - For example, in my mockups, I had a dropdown showing the decks you've created so far allowing you to reopen them (instead of re-importing from the New Deck modal)
-  ![alt text](image.png)
+  ![alt text](mdimages/image.png)
 - Add ability to change number of hints (currently set to 1)
 - Add ability to select whether deck is shuffled or in-order
 - Add theming - dark mode, high-contrast
