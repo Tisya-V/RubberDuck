@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';
-import { Appbar, Button, Icon, PaperProvider, TextInput, Tooltip, Portal } from 'react-native-paper';
+import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
+import { Appbar, Button, PaperProvider, TextInput, Tooltip, Portal } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import theme from './theme';
 import Flashcard from './components/Flashcard';
@@ -10,6 +10,7 @@ import AddFlashcardsModal from './components/AddFlashcardsModal';
 import { sendAnswer } from './controller/controller.mjs';
 import { screenHeight, screenWidth } from './components/constants';
 import { getNextCard } from './model/currentDeck';
+import quack_5 from './assets/quack_5.mp3';
 
 export default function App() {
   const [input, setInput] = useState('');
@@ -55,6 +56,13 @@ export default function App() {
       setFlashcardSide('question');
     }
   };
+
+  const playSound = () => {
+    const audio = new Audio('./assets/quack_5.mp3');
+    audio.play().catch(error => {
+      console.error('Error playing sound:', error);
+    });
+  };
   
   return (
     <PaperProvider theme={theme}>
@@ -65,9 +73,11 @@ export default function App() {
 
         <View style={styles.container}>
           <Appbar.Header style={styles.appbar}>
-            <Image source={require('./assets/icon.png')} 
-                   style={{ width: 70, height:70 }} 
-            />
+            <TouchableOpacity onPress={playSound}>
+              <Image source={require('./assets/icon.png')} 
+                     style={{ width: 70, height:70 }} 
+              />
+            </TouchableOpacity>
             <Appbar.Content title="rubberduck" />
 
             <Button 
