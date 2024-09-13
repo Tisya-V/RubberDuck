@@ -4,7 +4,7 @@ async function parseFlashcards(file) {
 
     const contents = await file.text();
     flashcards = contents.split('Question:').map((flashcard) => {
-        if (flashcard === '') return;
+        if (flashcard.trim() === '') return;
         [q, a] = flashcard.split('Answer:')
         q = q.trim();
         a = a.trim();

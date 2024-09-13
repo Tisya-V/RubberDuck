@@ -17,6 +17,7 @@ const AddFlashcardsModal = forwardRef(({onDeckChange}, ref) => {
     ]);
     const [deckName, setDeckName] = useState('');
     const [deckNameUnique, setDeckNameUnique] = useState(true);
+    const [edited, setEdited] = useState(false);
 
     const showModal = () => setModalVisible(true);
     const hideModal = () => setModalVisible(false);
@@ -42,7 +43,9 @@ const AddFlashcardsModal = forwardRef(({onDeckChange}, ref) => {
   
     const writeNewDeck = async (deckName, flashcards) => {
       try {
-        const content = flashcards.map((flashcard) => "\r\n\r\nQuestion:\r\n" + flashcard.front + '\r\nAnswer:\r\n' + flashcard.back).join('')
+        const content = flashcards
+          .filter((flashcard) => flashcard.question && flashcard.answer)
+          .map((flashcard) => "\r\n\r\nQuestion:\r\n" + flashcard.question + '\r\nAnswer:\r\n' + flashcard.answer).join('')
         const blob = new Blob([content], {type: 'text/plain'});
         saveAs(blob, deckName + '.txt');  
       } catch (err) {
@@ -66,6 +69,7 @@ const AddFlashcardsModal = forwardRef(({onDeckChange}, ref) => {
                       outlineStyle={styles.flashcardOutline}
                       value={flashcard.question}
                       onChangeText={(text) => {
+                          setEdited(true);
                           setFlashcards((prevFlashcards) =>
                             prevFlashcards.map((flashcard, index) => {
                               if (index === cardNo) {
@@ -86,6 +90,7 @@ const AddFlashcardsModal = forwardRef(({onDeckChange}, ref) => {
                       outlineStyle={styles.flashcardOutline}
                       value={flashcard.answer}
                       onChangeText={(text) => {
+                          setEdited(true);
                           setFlashcards((prevFlashcards) =>
                             prevFlashcards.map((flashcard, index) => {
                               if (index === cardNo) {
@@ -147,14 +152,18 @@ const AddFlashcardsModal = forwardRef(({onDeckChange}, ref) => {
                   const [fileHandle] = await window.showOpenFilePicker(pickerOpts);
                 
                   // get file contents
+                  setDeckName(fileHandle.name.replace('.txt', ''));
                   const fileData = await fileHandle.getFile();
                   const newFlashcards = await parseFlashcards(fileData);
                   console.log(newFlashcards);
+                  while (newFlashcards.length < 3) {
+                    newFlashcards.push({question: '', answer: ''});
+                  }
                   setFlashcards((old) => newFlashcards);
                 }
               }
             >Import from file</Button>
-
+  
             <Button 
               style={[styles.button, {backgroundColor: theme.colors.rddarkyellow}] }
               textColor='white'
@@ -165,7 +174,10 @@ const AddFlashcardsModal = forwardRef(({onDeckChange}, ref) => {
                 // checkDeckNameUniqueness(deckName);
                   if (deckName && deckNameUnique) {
                     // non-empty and unique deck names
-                    writeNewDeck(deckName, flashcards);
+                    if (edited) {
+                      // only download if new or edited
+                      writeNewDeck(deckName, flashcards);
+                    }
                     setNewDeck(deckName, flashcards)
                     onDeckChange();
                     hideModal()
