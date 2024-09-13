@@ -1,12 +1,14 @@
 var deck = [{question: '', answer:''}]
 var deckCopy = [{question: '', answer:''}]  
+var deckName = ''
 
 function getDeck() {
-  return deck
+  return {deckName: deckName, deckCards: deck}
 }
 
-function setNewDeck(newDeck) {
+function setNewDeck(newDeckName, newDeck) {
     console.log("Setting new deck", newDeck)
+  deckName = newDeckName
   deck = newDeck
   deckCopy = [...newDeck]
 }

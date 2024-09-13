@@ -12,7 +12,9 @@
     "@expo/metro-runtime": "~3.2.3",
     "@huggingface/inference": "^2.8.0",
     "expo": "~51.0.28",
+    "expo-file-system": "~17.0.1",
     "expo-status-bar": "~1.12.1",
+    "file-saver": "^2.0.5",
     "n-readlines": "^1.0.1",
     "react": "18.2.0",
     "react-card-flip": "^1.2.3",
@@ -23,7 +25,8 @@
     "react-native-web": "~0.19.10"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "electron": "^32.1.0"
   },
   "private": true
 }
