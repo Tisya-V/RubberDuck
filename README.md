@@ -33,6 +33,7 @@ Then export in the format shown below:
 And then use the Copy text button to copy the data. Paste it into a text file, and then you can import the flashcards from this text file into rubberduck.
 
 ## Roadmap
+- Proper error handling e.g. if import file is in wrong format, if model isn't responding etc.
 - Add proper landing material (currently just loads an empty deck which will cause weird behaviour if you try to interact with it)
   - Preferably on screen prompts to guide you towards making/importing a deck to get started
 - Improve front-end adaptability (i.e. make available as mobile app, and more reactive to resizing)
