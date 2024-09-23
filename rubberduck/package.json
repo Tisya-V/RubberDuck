@@ -6,11 +6,13 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "windows": "react-native run-windows"
   },
   "dependencies": {
     "@expo/metro-runtime": "~3.2.3",
     "@huggingface/inference": "^2.8.0",
+    "cohere-ai": "^7.13.2",
     "expo": "~51.0.28",
     "expo-file-system": "~17.0.1",
     "expo-status-bar": "~1.12.1",
@@ -19,14 +21,16 @@
     "react": "18.2.0",
     "react-card-flip": "^1.2.3",
     "react-dom": "18.2.0",
-    "react-native": "0.74.5",
+    "react-native": "^0.75.2",
     "react-native-paper": "^5.12.5",
     "react-native-vector-icons": "^10.1.0",
-    "react-native-web": "~0.19.10"
+    "react-native-web": "~0.19.10",
+    "react-native-windows": "^0.75.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "electron": "^32.1.0"
+    "electron": "^32.1.0",
+    "metro-config": "^0.80.12"
   },
   "private": true
 }

@@ -1,5 +1,11 @@
 import { HfInference } from '@huggingface/inference'
 
+const hf = new HfInference(process.env.EXPO_PUBLIC_HF_API_KEY);
+
+export const user = "user"
+export const system = "system"
+export const bot = "assistant"
+
 const repeatedInstr = `
     Does this answer contain the key points and details and keywords? If so then congratulate me and stop.
     Do not give me a hint if my answer is good enough and answers the provided question correctly and accurately.
@@ -15,14 +21,14 @@ const repeatedInstr = `
 
 const messageHistory = [
   { 
-    role: "system", 
+    role: system, 
     content: `
       Take the role of a friend quizzing the user on their flashcards, one flashcard at a time.
       Never give away solutions. Give hints in the form of probing questions. Be concise, friendly.
     `
   },
   {
-    role: "user",
+    role: user,
     content: `
       I am being tested on some flashcards. 
       For each answer I give, I will send you my answer, and the model correct answer from the flashcard.
@@ -50,11 +56,11 @@ const messageHistory = [
     `
   },
   {
-    role : "assistant",
+    role : bot,
     content : "Understood! Let's get started!"
   },
   {
-    role: "user", 
+    role: user, 
     content: `
       {
         Question: "What is the ALU? What is the role of the ALU?"
@@ -66,21 +72,21 @@ const messageHistory = [
     `
   },
   {
-    role: "assistant", 
+    role: bot, 
     content: `
        You're on the right track! The ALU does perform mathematical and logical operations, but it's important to be specific and use the correct terminology. Try saying "Arithmetic and Logic Unit - performs arithmetic and logical operations such as additions, subtractions, and bit shifts." Good job though! Keep it up!
     `
   },
   {
-    role: "user",
+    role: user,
     content: "No you need to give me a HINT, or small clue, or guiding question, as to the information that is missing or wrong. For example, you could have said, 'what does ALU stand for? what kind of 'mathsy' operations might it be performing?"
   },
   {
-    role: "assistant",
+    role: bot,
     content: "Understood"
   },
   { 
-    role: "user",
+    role: user,
     content: `
       {
         Question: "How does cache size affect CPU performance?"
@@ -93,21 +99,21 @@ const messageHistory = [
   },
 
   {
-    role: "assistant",
+    role: bot,
     content: "Consider focusing on how the cache's size impacts the frequency of accessing the slower RAM. A larger cache size means fewer trips to the slower RAM, leading to improved performance."
   },
 
   {
-    role: "user",
+    role: user,
     content: "The first part is a good, well-worded hint. The second part gives away the answer. In future, structure your hints more like the first part."
   },
   {
-    role: "assistant",
+    role: bot,
     content: "Understood, I will make sure to provide hints that guide the answer without giving away the exact answer. In this case, a hint could be: Consider how the cache size affects the frequency of accessing the slower RAM. A larger cache size can lead to improved performance in what way?"
   },
 
   {
-    role: "user",
+    role: user,
     content: `Very good. Remember to keep it fairly short and consise.
     Next one:
 
@@ -121,12 +127,12 @@ const messageHistory = [
   },
 
   {
-    role: "assistant",
+    role: bot,
     content: " Great job on your answer! You've captured the essence of the model answer. As a hint, you could consider focusing on how having more cores allows for the execution of more instructions at the same time, leading to faster processing."
   },
 
   {
-    role: "user",
+    role: user,
     content: `
     {
         Question: "How does clock speed affect CPU performance?"
@@ -137,14 +143,13 @@ const messageHistory = [
     `
   },
   {
-    role: "assistant",
+    role: bot,
     content: `
       No Hint: You got it! Your answer is good enough. Well done!
     `
   }
 ];
 
-const hf = new HfInference(process.env.EXPO_PUBLIC_HF_API_KEY);
 
 const sendChatCompletionRequest = async (messageHistory) => {
   console.log(messageHistory);
