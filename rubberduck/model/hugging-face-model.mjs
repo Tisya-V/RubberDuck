@@ -183,4 +183,11 @@ const sendMessage = async (messages) => {
 //   .then(response => console.log(response.choices[0].message.content))
 //   .catch(error => console.error(error));
 
-export {sendMessage, repeatedInstr}; 
+const hfModel = {
+  user,
+  bot,
+  repeatedInstr,
+  sendMessage
+}
+
+export default hfModel; 

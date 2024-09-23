@@ -1,18 +1,19 @@
-import {sendMessage} from "../model/model.mjs";
-import {repeatedInstr} from "../model/model.mjs";
-
+import hfModel, { user } from "../model/hugging-face-model.mjs";
+import cohereModel from "../model/cohere-model.mjs";
 const NUMHINTS = 1
 
 flashcardMessageHistory = [];
 hintsRemaining = NUMHINTS;
+model = cohereModel
 
 
 function sendAnswer(question, modelAnswer, userAnswer) {
     // if (hintsRemaining >= 1) {
-        
-        flashcardMessageHistory.push(formatMessage(question, modelAnswer, userAnswer));
-        return sendMessage(flashcardMessageHistory)
-            .then(response => {
+        const newMessage = formatMessage(question, modelAnswer, userAnswer)
+        // flashcardMessageHistory.push(formatMessage(question, modelAnswer, userAnswer));
+        return (model===hfModel ? hfModel.sendMessage(flashcardMessageHistory.concat([newMessage])) : cohereModel.sendMessage(flashcardMessageHistory, newMessage.message))
+        .then(response => {
+                flashcardMessageHistory.push(newMessage)
                 console.log(response);
                 prefix = "Hint: "
                 if (response.includes(prefix)) {
@@ -22,7 +23,7 @@ function sendAnswer(question, modelAnswer, userAnswer) {
                         return {responseType: "next", response: "Ah not quite quacko.. Let's take a look at the answer to see what you're missing!"}
                     } else {
                         hintsRemaining -= 1;
-                        flashcardMessageHistory.push({role: "assistant", content: response});
+                        flashcardMessageHistory.push(formatResponse(response));
                         return {responseType: "hint", response: `Hint ${NUMHINTS - hintsRemaining}/${NUMHINTS}:   ` + response.slice(prefix.length)}
                     }
                 } else {
@@ -42,15 +43,32 @@ function sendAnswer(question, modelAnswer, userAnswer) {
 }
 
 function formatMessage(question, modelAnswer, userAnswer) {
-    return {
-        role: "user",
+    return (model === hfModel) ?
+    {
+        role: hfModel.user,
         content: 
         `{
             Question: ${question},
             Model Answer: ${modelAnswer},
             My Answer: ${userAnswer}
-        }   ${repeatedInstr}`   
+        }   ${hfModel.repeatedInstr}`   
+    } 
+    :
+    {
+        role: cohereModel.user,
+        message:
+        `{
+            Question: ${question},
+            Model Answer: ${modelAnswer},
+            My Answer: ${userAnswer}
+        }   ${cohereModel.repeatedInstr}`   
     }
+}
+
+function formatResponse(response) {
+    return (model === hfModel) ?
+    {role: model.bot, content: response} :
+    {role: model.bot, message: response}
 }
 
 export {sendAnswer};

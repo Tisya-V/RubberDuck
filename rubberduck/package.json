@@ -12,6 +12,7 @@
   "dependencies": {
     "@expo/metro-runtime": "~3.2.3",
     "@huggingface/inference": "^2.8.0",
+    "@react-native/metro-config": "^0.75.3",
     "cohere-ai": "^7.13.2",
     "expo": "~51.0.28",
     "expo-file-system": "~17.0.1",

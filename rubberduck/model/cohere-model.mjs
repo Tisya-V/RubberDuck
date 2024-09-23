@@ -1,7 +1,8 @@
 import { CohereClient } from "cohere-ai";
 
+
 const cohere = new CohereClient({
-  token: "6ZGfVNDjSRJUHBAWe0jEbvmAjCFHlS6u4tHslyv2",
+  token: process.env.EXPO_PUBLIC_COHERE_API_KEY,
 });
 
 export const user = "USER"
@@ -182,9 +183,9 @@ const sendChatCompletionRequest = async (messageHistory, newMessage) => {
     }
 };
 
-const sendMessage = async (message) => {
+const sendMessage = async (prevMessages, message) => {
   try {
-    const response = await sendChatCompletionRequest(messageHistory, message);
+    const response = await sendChatCompletionRequest(messageHistory.concat(prevMessages), message);
     console.log("Response from model", response.text); 
     return response.text;
   } catch (error) {
@@ -195,4 +196,11 @@ const sendMessage = async (message) => {
 
 // sendMessage(message)
 
-export {sendMessage, repeatedInstr}; 
+const cohereModel = {
+    user,
+    bot,
+    repeatedInstr,
+    sendMessage
+}
+
+export default cohereModel; 
